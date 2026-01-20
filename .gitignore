@@ -1,0 +1,49 @@
+# Instagram DM Agent - Git Ignore
+
+# Environment and secrets
+.env
+accounts.json
+data/accounts.json
+
+# Database (generated at runtime)
+data/*.db
+data/*.sqlite
+*.db
+
+# Session data
+data/sessions/
+sessions/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+
+# Playwright
+playwright-report/
+test-results/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Screenshots
+screenshots/
+*.png
+!icon.png
+!dm_icon.png

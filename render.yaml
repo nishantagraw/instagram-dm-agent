@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: instagram-dm-agent
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PLAYWRIGHT_BROWSERS_PATH
+        value: /ms-playwright
+    healthCheckPath: /api/status
+    autoDeploy: true
+    plan: starter  # Note: Free tier may not have enough memory for Playwright
