@@ -16,12 +16,15 @@ COPY . .
 # Create data directory
 RUN mkdir -p /app/data
 
-# Expose port
-EXPOSE 5003
+# Expose port (Zeabur uses dynamic PORT)
+EXPOSE 8080
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:5003/api/status || exit 1
+# Environment variable for port (Zeabur sets PORT automatically)
+ENV PORT=8080
 
-# Run with gunicorn for production
-CMD ["gunicorn", "--bind", "0.0.0.0:5003", "--workers", "1", "--timeout", "300", "instagram_agent:app"]
+# Health check using PORT env var
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:${PORT}/api/status || exit 1
+
+# Run with gunicorn for production - using shell form to expand $PORT
+CMD gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 300 instagram_agent:app
