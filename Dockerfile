@@ -1,4 +1,4 @@
-# Instagram DM Agent - Docker Configuration with Playwright
+# Instagram DM Agent - Docker Configuration for Zeabur
 FROM mcr.microsoft.com/playwright/python:v1.40.0-jammy
 
 WORKDIR /app
@@ -16,15 +16,8 @@ COPY . .
 # Create data directory
 RUN mkdir -p /app/data
 
-# Expose port (Zeabur uses dynamic PORT)
+# Expose port (Zeabur sets PORT env var)
 EXPOSE 8080
 
-# Environment variable for port (Zeabur sets PORT automatically)
-ENV PORT=8080
-
-# Health check using PORT env var
-HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-    CMD curl -f http://localhost:${PORT}/api/status || exit 1
-
-# Run with gunicorn for production - using shell form to expand $PORT
-CMD gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 300 instagram_agent:app
+# Run the Flask app directly - it reads PORT from env
+CMD ["python", "instagram_agent.py"]
