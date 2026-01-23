@@ -229,6 +229,9 @@ def add_log(message, log_type="info"):
 
 def init_database():
     """Initialize SQLite database for tracking"""
+    # Ensure data directory exists
+    Path(CONFIG["data_dir"]).mkdir(parents=True, exist_ok=True)
+    
     db_path = Path(CONFIG["data_dir"]) / CONFIG["sent_dms_db"]
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
