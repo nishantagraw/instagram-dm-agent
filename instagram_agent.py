@@ -2570,6 +2570,11 @@ Be specific. Work step by step towards completing the user's task."""
 
 # ============== FLASK DASHBOARD ==============
 
+# CRITICAL: Initialize database BEFORE Flask app starts
+# This ensures daily_stats table exists before any routes are called
+Path(CONFIG["data_dir"]).mkdir(parents=True, exist_ok=True)
+init_database()
+
 app = Flask(__name__)
 agent = InstagramAgent()
 
